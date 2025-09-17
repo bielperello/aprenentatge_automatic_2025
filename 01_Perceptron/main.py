@@ -15,7 +15,16 @@ perceptron = Perceptron()
 perceptron.fit(X, y)  # Ajusta els pesos
 y_prediction = perceptron.predict(X)  # Prediu
 
-#  Resultats
-plt.figure(1)
-plt.scatter(X[:, 0], X[:, 1], c=y_prediction)  # Mostram el conjunt de mostres el color indica la classe
+# Resultats
+fig, ax = plt.subplots()
+ax.scatter(X[:, 0], X[:, 1], c=y_prediction, cmap="bwr", alpha=0.7)
+
+# Dibuixar la recta de decisió
+w0, w1, w2 = perceptron.w_
+slope = -w1 / w2
+intercept = -w0 / w2  # punt on talla l’eix Y
+ax.axline((0, intercept), slope=slope, color="black", linestyle="--", linewidth=2)
+
+ax.set_title("Separació trobada pel Perceptron")
 plt.show()
+

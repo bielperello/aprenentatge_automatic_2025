@@ -25,6 +25,7 @@ class Perceptron:
         self.eta = eta
         self.n_iter = n_iter
         self.w_ = None  # defined in method fit
+        self.errors_ = []
 
     def fit(self, X, y):
 
@@ -42,7 +43,22 @@ class Perceptron:
         self.w_ = np.zeros(1 + X.shape[1])  # First position corresponds to threshold
 
         # TODO: Put your code (fit algorithm)
+        self.errors_ = []
 
+        for _ in range(self.n_iter):
+            errors = 0;
+            for xi, target in zip(X, y):
+                update = self.eta * (target - self.predict(xi))
+                self.w_[1:] += update * xi
+                self.w_[0] += update
+                errors += int(update != 0.0)
+            self.errors_.append(errors)
+
+        return self
+
+    def net_input(self, X):
+        """Calcula z = w^T x."""
+        return np.dot(X, self.w_[1:]) + self.w_[0]
 
     def predict(self, X):
         """Return class label.
@@ -53,4 +69,4 @@ class Perceptron:
 
         # TODO: Put your code
 
-        return np.random.randint(0, 2, size=X.shape[0])  # remove
+        return np.where(self.net_input(X) >= 0.0, 1, -1)
