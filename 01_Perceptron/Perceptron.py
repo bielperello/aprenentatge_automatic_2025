@@ -1,6 +1,5 @@
 import numpy as np
 
-
 class Perceptron:
 
     """Perceptron classifier.
@@ -46,7 +45,7 @@ class Perceptron:
         self.errors_ = []
 
         for _ in range(self.n_iter):
-            errors = 0;
+            errors = 0
             for xi, target in zip(X, y):
                 update = self.eta * (target - self.predict(xi))
                 self.w_[1:] += update * xi
